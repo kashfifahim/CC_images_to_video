@@ -24,7 +24,8 @@ batches:
   - folder: batches/
 scripts:
   - command: python3 run.py {input_folder} {output_folder}
+
 environment:
   packages:
-      - id: opencv-python
+    - id: opencv-python
       manager: pip
