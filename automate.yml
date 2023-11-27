@@ -3,10 +3,18 @@ name: Image to Video Conversion
 version: 0.1.0
 input:
   variables:
-    - id: image_folder
-      # ISSUE: What's the work around to a folder view?
-      view: folder
-      path: input_folder
+    - id: image_file_1
+      view: file
+      path: input_folder/image1.png
+    - id: image_file_2
+      view: file
+      path: input_folder/image2.png
+    - id: image_file_3
+      view: file
+      path: input_folder/image3.png
+    - id: image_file_4
+      view: file
+      path: input_folder/image4.png
 output:
   variables:
     - id: video_file
