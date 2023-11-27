@@ -1,9 +1,10 @@
-crosscompute: 0.9.4
+crosscompute: 0.9.2
 name: Image to Video Conversion
 version: 0.1.0
 input:
   variables:
     - id: image_folder
+      # ISSUE: What's the work around to a folder view?
       view: folder
       path: input_folder
 output:
