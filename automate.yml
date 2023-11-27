@@ -20,5 +20,7 @@ output:
     - id: video_file
       view: file
       path: output_folder/output_video.mp4
+batches:
+  - folder: batches/
 scripts:
   - path: python3 image_to_video.py {input_folder} {output_folder}
