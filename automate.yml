@@ -23,4 +23,4 @@ output:
 batches:
   - folder: batches/
 scripts:
-  - path: python3 image_to_video.py {input_folder} {output_folder}
+  - path: python3 run.py {input_folder} {output_folder}
