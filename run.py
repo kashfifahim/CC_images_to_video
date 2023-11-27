@@ -49,7 +49,8 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
     out.release()
 
 # Adapted for CrossCompute - example usage with a list of image paths
-image_paths = [str(Path('input_folder') / f'image{i}.png') for i in range(1, num_images+1)]  # num_images is the number of images you have
+input_folder_path = Path('input_folder')
+image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
 output_video_file = str(Path('output_folder') / 'output_video.mp4')
 
 images_to_video(image_paths, output_video_file, fps=30, duration=5)
