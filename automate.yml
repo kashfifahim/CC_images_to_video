@@ -1,0 +1,15 @@
+crosscompute: 0.9.4
+name: Image to Video Conversion
+version: 0.1.0
+input:
+  variables:
+    - id: image_folder
+      view: folder
+      path: input_folder
+output:
+  variables:
+    - id: video_file
+      view: file
+      path: output_folder/output_video.mp4
+scripts:
+  - path: python3 image_to_video.py {input_folder} {output_folder}
