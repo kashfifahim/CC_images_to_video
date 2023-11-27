@@ -3,6 +3,10 @@ import os
 import os
 from os import getenv
 from pathlib import Path
+import logging
+
+# Set up logging
+logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 def resize_image(image, target_width, target_height):
     """
@@ -48,9 +52,28 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
     
     out.release()
 
-# Adapted for CrossCompute - example usage with a list of image paths
-input_folder_path = Path('input_folder')
-image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
-output_video_file = str(Path('output_folder') / 'output_video.mp4')
+try:
+    input_folder_path = Path('input_folder')
+    output_video_file = Path('output_folder/output_video.mp4')
 
-images_to_video(image_paths, output_video_file, fps=30, duration=5)
+    # Ensure output folder exists
+    output_video_file.parent.mkdir(parents=True, exist_ok=True)
+
+    # Dynamically generate list of image paths
+    image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
+
+    # Check if image paths are empty
+    if not image_paths:
+        raise ValueError("No images found in the input folder")
+
+    # Call the images_to_video function
+    images_to_video(image_paths, str(output_video_file), fps=30, duration=5)
+
+except FileNotFoundError as fnf_error:
+    logging.error(f"File not found: {fnf_error}", exc_info=True)
+except PermissionError as perm_error:
+    logging.error(f"Permission error: {perm_error}", exc_info=True)
+except ValueError as val_error:
+    logging.error(f"Value error: {val_error}", exc_info=True)
+except Exception as e:
+    logging.error(f"An unexpected error occurred: {e}", exc_info=True)
