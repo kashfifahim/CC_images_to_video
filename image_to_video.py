@@ -1,3 +1,5 @@
+import cv2
+import os
 import os
 from os import getenv
 from pathlib import Path
