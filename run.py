@@ -5,9 +5,6 @@ from os import getenv
 from pathlib import Path
 import logging
 import re
-import http.server
-import socketserver
-import threading
 
 # Set up logging
 logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
