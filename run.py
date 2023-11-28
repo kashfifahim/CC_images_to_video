@@ -4,9 +4,13 @@ import os
 from os import getenv
 from pathlib import Path
 import logging
+import re
 
 # Set up logging
 logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
 def resize_image(image, target_width, target_height):
     """
@@ -60,7 +64,10 @@ try:
     output_video_file.parent.mkdir(parents=True, exist_ok=True)
 
     # Dynamically generate list of image paths
-    image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
+    # image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
+
+    # Natural Sort Function for image paths
+    image_paths = sorted([str(file_path) for file_path in input_folder_path.glob('*.png')], key=natural_sort_key)
 
     # Check if image paths are empty
     if not image_paths:
