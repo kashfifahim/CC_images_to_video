@@ -87,16 +87,3 @@ except ValueError as val_error:
     logging.error(f"Value error: {val_error}", exc_info=True)
 except Exception as e:
     logging.error(f"An unexpected error occurred: {e}", exc_info=True)
-
-# Define a function to start a simple HTTP server
-def start_server(port=8000, directory='output_folder'):
-    class Handler(http.server.SimpleHTTPRequestHandler):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, directory=directory, **kwargs)
-
-    with socketserver.TCPServer(("", port), Handler) as httpd:
-        print(f"Serving at http://localhost:{port}")
-        httpd.serve_forever()
-
-# Start the server in a new thread
-threading.Thread(target=start_server, args=(8000, 'output_folder')).start()

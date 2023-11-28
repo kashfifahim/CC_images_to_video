@@ -18,7 +18,7 @@ input:
 output:
   variables:
     - id: video_file
-      view: link
+      view: file
       path: output_folder/output_video.mp4
 batches:
   - folder: batches/
