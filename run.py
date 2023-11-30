@@ -1,6 +1,5 @@
 import cv2
 import os
-import os
 from os import getenv
 from pathlib import Path
 import logging
@@ -57,7 +56,11 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
     out.release()
 
 try:
-    input_folder_path = Path('input_folder')
+    input_folder_path = Path(getenv(
+    'CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
+    output_folder = Path(getenv(
+    'CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
+    output_folder.mkdir(parents=True, exist_ok=True)
     output_video_file = Path('output_folder/output_video.mp4')
 
     # Ensure output folder exists
