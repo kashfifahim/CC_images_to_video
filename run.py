@@ -4,9 +4,14 @@ from os import getenv
 from pathlib import Path
 import logging
 import re
+import zipfile
 
 # Set up logging
 logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+
+def extract_images_from_zip(zip_path, extract_to):
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_to)
 
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
@@ -68,7 +73,17 @@ try:
 
     # Dynamically generate list of image paths
     # image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
+    
+    # Assuming the zip file is named 'images.zip' and located in input_folder_path
+    zip_file_path = input_folder_path / 'images.zip'
+    extract_to_folder = input_folder_path / 'extracted_images'
+    extract_to_folder.mkdir(exist_ok=True)
 
+    # Extract images from the zip file
+    extract_images_from_zip(zip_file_path, extract_to_folder)
+
+    # Use the extracted images folder for image paths
+    image_paths = sorted([str(file_path) for file_path in extract_to_folder.glob('*.png')], key=natural_sort_key)
     # Natural Sort Function for image paths
     image_paths = sorted([str(file_path) for file_path in input_folder_path.glob('*.png')], key=natural_sort_key)
 
@@ -87,3 +102,5 @@ except ValueError as val_error:
     logging.error(f"Value error: {val_error}", exc_info=True)
 except Exception as e:
     logging.error(f"An unexpected error occurred: {e}", exc_info=True)
+except zipfile.BadZipFile as bz_error:
+    logging.error(f"Bad Zip File: {bz_error}", exc_info=True)
