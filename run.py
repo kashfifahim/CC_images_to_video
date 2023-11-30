@@ -9,15 +9,13 @@ from pathlib import Path
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description="Image to Video Conversion")
-parser.add_argument('input_folder', type=str, required=True, help="Input folder containing images")
-parser.add_argument('output_folder', type=str, required=True, help="Output folder for the video file")
+parser.add_argument('--input_folder', type=str, required=True, help="Input folder containing images")
+parser.add_argument('--output_folder', type=str, required=True, help="Output folder for the video file")
 
 # Parse arguments
 args = parser.parse_args()
 input_folder = Path(args.input_folder)
 output_folder = Path(args.output_folder)
-output_folder.mkdir(parents=True, exist_ok=True)
-output_video_file = output_folder / 'output_video.mp4'
 
 # Set up logging
 logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
@@ -70,15 +68,15 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
     out.release()
 
 try:
-    # input_folder_path = Path(getenv(
-    # 'CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
-    # output_folder = Path(getenv(
-    # 'CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
-    # output_folder.mkdir(parents=True, exist_ok=True)
-    # output_video_file = output_folder / 'output_video.mp4'
+    input_folder_path = Path(getenv(
+    'CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
+    output_folder = Path(getenv(
+    'CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
+    output_folder.mkdir(parents=True, exist_ok=True)
+    output_video_file = output_folder / 'output_video.mp4'
 
     # Ensure output folder exists
-    # output_video_file.parent.mkdir(parents=True, exist_ok=True)
+    output_video_file.parent.mkdir(parents=True, exist_ok=True)
 
     # Dynamically generate list of image paths
     # image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
