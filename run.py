@@ -61,7 +61,7 @@ try:
     output_folder = Path(getenv(
     'CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
     output_folder.mkdir(parents=True, exist_ok=True)
-    output_video_file = Path('output_folder/output_video.mp4')
+    output_video_file = output_folder / 'output_video.mp4'
 
     # Ensure output folder exists
     output_video_file.parent.mkdir(parents=True, exist_ok=True)
