@@ -3,18 +3,9 @@ name: Image to Video Conversion
 version: 0.1.0
 input:
   variables:
-    - id: image_file_1
+    - id: image_archive
       view: file
-      path: image1.png
-    - id: image_file_2
-      view: file
-      path: image2.png
-    - id: image_file_3
-      view: file
-      path: image3.png
-    - id: image_file_4
-      view: file
-      path: image4.png
+      path: Archive.zip
 output:
   variables:
     - id: video_file
@@ -27,4 +18,6 @@ scripts:
 environment:
   packages:
     - id: opencv-python
+      manager: pip
+    - id: zipfile36
       manager: pip
