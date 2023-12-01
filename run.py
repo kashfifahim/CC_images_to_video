@@ -4,12 +4,6 @@ from os import getenv
 from pathlib import Path
 import logging
 import re
-   
-input_folder = Path(getenv(
-    'CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
-output_folder = Path(getenv(
-    'CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
-output_folder.mkdir(parents=True, exist_ok=True)
 
 # Set up logging
 logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
