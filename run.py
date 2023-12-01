@@ -1,9 +1,9 @@
 import cv2
 import os
-from os import getenv
 from pathlib import Path
 import logging
 import re
+import argparse
 
 # Set up logging
 logging.basicConfig(filename='image_to_video_errors.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
@@ -55,17 +55,24 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
     
     out.release()
 
+# Set up argument parser
+parser = argparse.ArgumentParser(description="Convert a series of images into a video.")
+parser.add_argument("--input_folder", type=str, required=True, help="Path to the input folder containing images")
+parser.add_argument("--output_folder", type=str, required=True, help="Path to the output folder for the video file")
+
+# Parse arguments
+args = parser.parse_args()
+
 try:
-    input_folder_path = Path('input_folder')
-    output_video_file = Path('output_folder/output_video.mp4')
+    input_folder_path = Path(args.input_folder)
+    output_folder = Path(args.output_folder)
+    output_folder.mkdir(parents=True, exist_ok=True)
+    output_video_file = output_folder / 'output_video.mp4'
 
     # Ensure output folder exists
     output_video_file.parent.mkdir(parents=True, exist_ok=True)
 
-    # Dynamically generate list of image paths
-    # image_paths = [str(file_path) for file_path in input_folder_path.glob('*.png')]
-
-    # Natural Sort Function for image paths
+    # Dynamically generate list of image paths using natural sort
     image_paths = sorted([str(file_path) for file_path in input_folder_path.glob('*.png')], key=natural_sort_key)
 
     # Check if image paths are empty
