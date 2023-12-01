@@ -18,12 +18,12 @@ input:
 output:
   variables:
     - id: video_file
-      view: link
+      view: file
       path: output_video.mp4
 batches:
   - folder: batches/standard
 scripts:
-  - path: run.ipynb
+  - command: run.py
 environment:
   packages:
     - id: opencv-python
