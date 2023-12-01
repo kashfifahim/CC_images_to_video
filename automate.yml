@@ -6,11 +6,17 @@ input:
     - id: image_archive
       view: file
       path: Archive.zip
+      label: Select Your Zip File
+  templates:
+    - path: input.md
 output:
   variables:
     - id: video_file
       view: link
       path: output_video.mp4
+      label: Click on the link below to download your video
+  templates:
+    - path: output.md
 batches:
   - folder: batches/standard
 scripts:
