@@ -1,6 +1,9 @@
 import cv2
+<<<<<<< HEAD
 import os
 import os.path
+=======
+>>>>>>> parent of b033234 (Hopefully back to working project)
 import re
 import zipfile
 
@@ -23,9 +26,9 @@ def extract_images_from_zip(zip_path, extract_to, zip_file_name):
     >>> folder_path = extract_images_from_zip('path/to/zipfile.zip', 'path/to/destination/directory')
     >>> print(folder_path)
     """
-    print(f"Extracting images from {zip_path} to {extract_to}")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
+<<<<<<< HEAD
 
     return find_folder_with_images(extract_to, zip_file_name)
 
@@ -68,6 +71,8 @@ def find_folder_with_images(extract_to, zip_file_name):
 
     print(f"No folder named '{target_folder_name}' with images found.")
     return None
+=======
+>>>>>>> parent of b033234 (Hopefully back to working project)
 
 
 def natural_sort_key(s):
