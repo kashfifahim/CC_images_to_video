@@ -1,5 +1,6 @@
 import cv2
 import os
+import os.path
 import re
 import zipfile
 
@@ -16,40 +17,54 @@ def extract_images_from_zip(zip_path, extract_to):
     extract_to (str): The path of the directory where the contents of the ZIP file will be extracted.
 
     Returns:
-    None
+    str or None: The path of the folder with the same name as the zip file containing image files, or None if no such folder is found.
 
     Example:
-    >>> extract_images_from_zip('path/to/zipfile.zip', 'path/to/destination/directory')
+    >>> folder_path = extract_images_from_zip('path/to/zipfile.zip', 'path/to/destination/directory')
+    >>> print(folder_path)
     """
     print(f"Extracting images from {zip_path} to {extract_to}")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
-    return find_folder_with_images(extract_to)
+    
+    zip_file_name = os.path.basename(zip_path)
+    return find_folder_with_images(extract_to, zip_file_name)
 
 
-def find_folder_with_images(extract_to):
+def find_folder_with_images(extract_to, zip_file_name):
     """
-    Traverse a directory to find the first subfolder containing image files.
-    This function walks through all the subdirectories starting from the given directory
-    (`extract_to`). It checks each file to see if it is an image file (specifically, with
-    extensions .png, .jpg, .jpeg). Once it finds a folder containing at least one image file,
-    it prints the folder's path and returns it. If no such folder is found, the function prints
-    a message indicating that no folder with images was found and returns None.
+    Traverse a directory to find a subfolder with the same name as the zip file, containing image files.
+
+    This function walks through the subdirectories starting from the given directory (`extract_to`).
+    It looks for a folder that has the same name as the provided zip file (without the file extension).
+    Within this folder, it checks for image files (specifically, with extensions .png, .jpg, .jpeg). 
+    Once it finds such a folder, it prints the folder's path and returns it. If no such folder is found, 
+    or if it doesn't contain any image files, the function prints a message indicating so and returns None.
+
     Parameters:
     extract_to (str): The path of the directory to start the search from.
+    zip_file_name (str): The name of the zip file (including the '.zip' extension).
+
     Returns:
-    str or None: The path of the first folder containing image files, or None if no such folder is found.
+    str or None: The path of the folder with the same name as the zip file containing image files, or None if no such folder is found.
+
     Example:
-    >>> folder_path = find_folder_with_images('/path/to/search')
+    >>> folder_path = find_folder_with_images('/path/to/search', 'archive.zip')
     >>> print(folder_path)
     """
 
+    target_folder_name = os.path.splitext(zip_file_name)[0]
+
     for root, dirs, files in os.walk(extract_to):
-        for file in files:
-            if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+        if os.path.basename(root) == target_folder_name:
+            if any(file.lower().endswith(('.png', '.jpg', '.jpeg')) for file in files):
                 print(f"Images found in folder: {root}")
                 return root
-    print("No folder with images found.")
+            else:
+                print(f"Folder named '{target_folder_name}' found but contains no image files.")
+                return None
+
+    print(f"No folder named '{target_folder_name}' with images found.")
     return None
 
 
