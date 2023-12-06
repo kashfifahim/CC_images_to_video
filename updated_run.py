@@ -27,8 +27,7 @@ if __name__ == '__main__':
              print(f"Processing PDF file: {pdf_file}")
              convert_pdf_to_images(pdf_file, extract_to_folder)
              print(f"PDF processed and images saved in {extract_to_folder}")
-
-    if (input_folder.glob("*.zip")):
+    else: 
         zip_files = list(input_folder.glob('*.zip'))
         if not zip_files:
             print("No zip file found in the input folder")
