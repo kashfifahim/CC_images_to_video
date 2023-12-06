@@ -20,7 +20,7 @@ output:
 batches:
   - folder: batches/standard
 scripts:
-  - path: run.ipynb
+  - path: run.py
 environment:
   packages:
     - id: opencv-python
