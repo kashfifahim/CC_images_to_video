@@ -7,7 +7,6 @@ from pdf_processing import convert_pdf_to_images
 
 if __name__ == '__main__':
     print("Script started")
-
     # Setting up input and output folders
     input_folder = Path(getenv('CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
     output_folder = Path(getenv('CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
@@ -23,21 +22,25 @@ if __name__ == '__main__':
     extract_to_folder = temp_folder / 'extracted_images'
     extract_to_folder.mkdir(exist_ok=True)
 
-    # Finding the first zip file in the input folder
-    zip_files = list(input_folder.glob('*.zip'))
-    if not zip_files:
-        print("No zip file found in the input folder")
-        raise ValueError("No zip file found in the input folder")
-    zip_file_path = zip_files[0]
-    print(f"Zip file found: {zip_file_path}")
+    if (input_folder.glob('*.pdf')):
+        for pdf_file in input_folder.glob('*.pdf'):
+             print(f"Processing PDF file: {pdf_file}")
+             convert_pdf_to_images(pdf_file, extract_to_folder)
+             print(f"PDF processed and images saved in {extract_to_folder}")
 
-    # Extracting images from the zip file and finding the folder with images
-    images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
-    if not images_folder:
-        raise ValueError("No folder containing images was found")
-
+    if (input_folder.glob("*.zip")):
+        zip_files = list(input_folder.glob('*.zip'))
+        if not zip_files:
+            print("No zip file found in the input folder")
+            raise ValueError("No zip file found in the input folder")
+        zip_file_path = zip_files[0]
+        print(f"Zip file found: {zip_file_path}")
+        images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
+        if not images_folder:
+            raise ValueError("No folder containing images was found")
+    
     # Sorting the image paths
-    image_paths = sorted([str(file_path) for file_path in Path(images_folder).glob('*.png')], key=natural_sort_key)
+    image_paths = sorted([str(file_path) for file_path in Path(extract_to_folder).glob('*.png')], key=natural_sort_key)
     print(f"Sorted image paths: {image_paths}")
 
     # Setting the path for the output video file

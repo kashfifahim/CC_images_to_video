@@ -20,10 +20,12 @@ output:
 batches:
   - folder: batches/standard
 scripts:
-  - path: run.py
+  - path: updated_run.py
 environment:
   packages:
     - id: opencv-python
       manager: pip
     - id: zipfile36
+      manager: pip
+    - id: pdf2image
       manager: pip
