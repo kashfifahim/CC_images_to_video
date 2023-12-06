@@ -20,7 +20,7 @@ output:
 batches:
   - folder: batches/standard
 scripts:
-  - path: updated_run.py
+  - path: run.py
 environment:
   packages:
     - id: opencv-python
