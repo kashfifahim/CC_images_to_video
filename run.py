@@ -30,7 +30,7 @@ if __name__ == '__main__':
     print(f"Zip file found: {zip_file_path}")
 
     # Extracting images from the zip file and finding the folder with images
-    images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
+    images_folder = extract_images_from_zip(zip_file_path, extract_to_folder, zip_file_path.name)
     if not images_folder:
         raise ValueError("No folder containing images was found")
 

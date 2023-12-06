@@ -52,8 +52,9 @@ def find_folder_with_images(extract_to, zip_file_name):
     >>> folder_path = find_folder_with_images('/path/to/search', 'archive.zip')
     >>> print(folder_path)
     """
-
-    target_folder_name = os.path.splitext(zip_file_name)[1]
+    print(zip_file_name)
+    target_folder_name = os.path.splitext(zip_file_name)[0]
+    print(target_folder_name)
 
     for root, dirs, files in os.walk(extract_to):
         if os.path.basename(root) == target_folder_name:
