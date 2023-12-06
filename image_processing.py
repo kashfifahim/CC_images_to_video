@@ -1,4 +1,5 @@
 import cv2
+import os
 import re
 import zipfile
 
@@ -20,8 +21,40 @@ def extract_images_from_zip(zip_path, extract_to):
     Example:
     >>> extract_images_from_zip('path/to/zipfile.zip', 'path/to/destination/directory')
     """
+    print(f"Extracting images from {zip_path} to {extract_to}")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
+    return find_folder_with_images(extract_to)
+
+
+def find_folder_with_images(extract_to):
+    """
+    Traverse a directory to find the first subfolder containing image files.
+
+    This function walks through all the subdirectories starting from the given directory
+    (`extract_to`). It checks each file to see if it is an image file (specifically, with
+    extensions .png, .jpg, .jpeg). Once it finds a folder containing at least one image file,
+    it prints the folder's path and returns it. If no such folder is found, the function prints
+    a message indicating that no folder with images was found and returns None.
+
+    Parameters:
+    extract_to (str): The path of the directory to start the search from.
+
+    Returns:
+    str or None: The path of the first folder containing image files, or None if no such folder is found.
+
+    Example:
+    >>> folder_path = find_folder_with_images('/path/to/search')
+    >>> print(folder_path)
+    """
+
+    for root, dirs, files in os.walk(extract_to):
+        for file in files:
+            if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+                print(f"Images found in folder: {root}")
+                return root
+    print("No folder with images found.")
+    return None
 
 
 def natural_sort_key(s):
