@@ -3,7 +3,7 @@ import re
 import zipfile
 
 
-def extract_images_from_zip(zip_path, extract_to, zip_file_name):
+def extract_images_from_zip(zip_path, extract_to):
     """
     Extract all files from a ZIP archive to a specified directory.
 
