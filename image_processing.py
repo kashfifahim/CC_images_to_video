@@ -1,9 +1,4 @@
 import cv2
-<<<<<<< HEAD
-import os
-import os.path
-=======
->>>>>>> parent of b033234 (Hopefully back to working project)
 import re
 import zipfile
 
@@ -28,51 +23,6 @@ def extract_images_from_zip(zip_path, extract_to, zip_file_name):
     """
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
-<<<<<<< HEAD
-
-    return find_folder_with_images(extract_to, zip_file_name)
-
-
-def find_folder_with_images(extract_to, zip_file_name):
-    """
-    Traverse a directory to find a subfolder with the same name as the zip file, containing image files.
-
-    This function walks through the subdirectories starting from the given directory (`extract_to`).
-    It looks for a folder that has the same name as the provided zip file (without the file extension).
-    Within this folder, it checks for image files (specifically, with extensions .png, .jpg, .jpeg). 
-    Once it finds such a folder, it prints the folder's path and returns it. If no such folder is found, 
-    or if it doesn't contain any image files, the function prints a message indicating so and returns None.
-
-    Parameters:
-    extract_to (str): The path of the directory to start the search from.
-    zip_file_name (str): The name of the zip file (including the '.zip' extension).
-
-    Returns:
-    str or None: The path of the folder with the same name as the zip file containing image files, or None if no such folder is found.
-
-    Example:
-    >>> folder_path = find_folder_with_images('/path/to/search', 'archive.zip')
-    >>> print(folder_path)
-    """
-    print(zip_file_name)
-    target_folder_name = os.path.splitext(zip_file_name)[0]
-    print(f"Looking for a folder named '{target_folder_name}' in {extract_to}")
-
-    for root, dirs, files in os.walk(extract_to):
-        print(f"Checking folder: {root}")
-        if os.path.basename(root) == target_folder_name:
-            print(f"Found target folder: {root}")
-            if any(file.lower().endswith(('.png', '.jpg', '.jpeg')) for file in files):
-                print(f"Images found in folder: {root}")
-                return root
-            else:
-                print(f"Folder named '{target_folder_name}' found but contains no image files.")
-                return None
-
-    print(f"No folder named '{target_folder_name}' with images found.")
-    return None
-=======
->>>>>>> parent of b033234 (Hopefully back to working project)
 
 
 def natural_sort_key(s):
