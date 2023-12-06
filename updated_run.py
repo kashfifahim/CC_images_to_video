@@ -24,11 +24,11 @@ def process_images_to_video(extract_to_folder, output_folder, temp_video_file):
         shutil.move(str(temp_video_file), str(output_video_file))
         print(f"Video moved to output folder: {output_video_file}")
 
-        try:
-            shutil.rmtree(temp_video_file.parent)
-            print(f"Deleted temp images folder: {extract_to_folder}")
-        except OSError as e:
-            print(f"Error deleting folder {extract_to_folder}: {e.strerror}")
+        # try:
+        #     shutil.rmtree(temp_video_file.parent)
+        #     print(f"Deleted temp images folder: {extract_to_folder}")
+        # except OSError as e:
+        #     print(f"Error deleting folder {extract_to_folder}: {e.strerror}")
     else:
         print(f"Video creation failed or video file is empty: {output_video_file}")
  
