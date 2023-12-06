@@ -53,10 +53,12 @@ def find_folder_with_images(extract_to, zip_file_name):
     """
     print(zip_file_name)
     target_folder_name = os.path.splitext(zip_file_name)[0]
-    print(target_folder_name)
+    print(f"Looking for a folder named '{target_folder_name}' in {extract_to}")
 
     for root, dirs, files in os.walk(extract_to):
+        print(f"Checking folder: {root}")
         if os.path.basename(root) == target_folder_name:
+            print(f"Found target folder: {root}")
             if any(file.lower().endswith(('.png', '.jpg', '.jpeg')) for file in files):
                 print(f"Images found in folder: {root}")
                 return root

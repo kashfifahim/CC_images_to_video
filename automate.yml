@@ -27,5 +27,3 @@ environment:
       manager: pip
     - id: zipfile36
       manager: pip
-    - id: pdf2image
-      manager: pip
