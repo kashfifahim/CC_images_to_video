@@ -2,7 +2,7 @@ from os import getenv
 from pathlib import Path
 import os
 import shutil
-from image_processing import extract_images_from_zip, natural_sort_key, images_to_video
+from image_processing import extract_images_from_zip,  images_to_video, find_folder_with_images, natural_sort_key, resize_image
 from pdf_processing import convert_pdf_to_images
 
 
@@ -57,7 +57,7 @@ if __name__ == '__main__':
              print(f"PDF processed and images saved in {extract_to_folder}")
         
         # After PDF processing and saving images
-        process_images_to_video(extract_to_folder, output_folder, temp_video_file)
+        process_images_to_video(extract_to_folder, temp_folder, temp_video_file)
     else: 
         zip_files = list(input_folder.glob('*.zip'))
         if not zip_files:
@@ -69,4 +69,4 @@ if __name__ == '__main__':
         if not images_folder:
             raise ValueError("No folder containing images was found")
         # After extracting images from ZIP
-        process_images_to_video(extract_to_folder, output_folder, temp_video_file)
+        process_images_to_video(extract_to_folder, temp_folder, temp_video_file)
