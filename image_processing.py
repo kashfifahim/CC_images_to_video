@@ -5,7 +5,7 @@ import re
 import zipfile
 
 
-def extract_images_from_zip(zip_path, extract_to):
+def extract_images_from_zip(zip_path, extract_to, zip_file_name):
     """
     Extract all files from a ZIP archive to a specified directory.
 
@@ -26,8 +26,7 @@ def extract_images_from_zip(zip_path, extract_to):
     print(f"Extracting images from {zip_path} to {extract_to}")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
-    
-    zip_file_name = os.path.basename(zip_path)
+
     return find_folder_with_images(extract_to, zip_file_name)
 
 
