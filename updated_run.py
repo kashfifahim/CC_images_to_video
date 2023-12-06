@@ -7,7 +7,6 @@ from pdf_processing import convert_pdf_to_images
 
 if __name__ == '__main__':
     print("Script started")
-
     # Setting up input and output folders
     input_folder = Path(getenv('CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
     output_folder = Path(getenv('CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
@@ -22,6 +21,20 @@ if __name__ == '__main__':
 
     extract_to_folder = temp_folder / 'extracted_images'
     extract_to_folder.mkdir(exist_ok=True)
+
+    # PDF Processing Section
+    # PDF Processing Section
+    for pdf_file in input_folder.glob('*.pdf'):
+        print(f"Processing PDF file: {pdf_file}")
+        pdf_output_folder = temp_folder / pdf_file.stem
+        pdf_output_folder.mkdir(exist_ok=True)
+        convert_pdf_to_images(pdf_file, pdf_output_folder)
+        print(f"PDF processed and images saved in {pdf_output_folder}")
+
+        # Zipping the folder with images
+        zip_file_path = temp_folder / f"{pdf_file.stem}_Archive.zip"
+        shutil.make_archive(zip_file_path.stem, 'zip', pdf_output_folder)
+        print(f"Created zip archive at {zip_file_path}")
 
     # Finding the first zip file in the input folder
     zip_files = list(input_folder.glob('*.zip'))
