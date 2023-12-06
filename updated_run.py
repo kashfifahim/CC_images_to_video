@@ -22,35 +22,25 @@ if __name__ == '__main__':
     extract_to_folder = temp_folder / 'extracted_images'
     extract_to_folder.mkdir(exist_ok=True)
 
-    # PDF Processing Section
-    # PDF Processing Section
-    for pdf_file in input_folder.glob('*.pdf'):
-        print(f"Processing PDF file: {pdf_file}")
-        pdf_output_folder = temp_folder / pdf_file.stem
-        pdf_output_folder.mkdir(exist_ok=True)
-        convert_pdf_to_images(pdf_file, pdf_output_folder)
-        print(f"PDF processed and images saved in {pdf_output_folder}")
+    if (input_folder.glob('*.pdf')):
+        for pdf_file in input_folder.glob('*.pdf'):
+             print(f"Processing PDF file: {pdf_file}")
+             convert_pdf_to_images(pdf_file, extract_to_folder)
+             print(f"PDF processed and images saved in {extract_to_folder}")
 
-        # Zipping the folder with images
-        zip_file_path = temp_folder / f"{pdf_file.stem}_Archive.zip"
-        shutil.make_archive(zip_file_path.stem, 'zip', pdf_output_folder)
-        print(f"Created zip archive at {zip_file_path}")
-
-    # Finding the first zip file in the input folder
-    zip_files = list(input_folder.glob('*.zip'))
-    if not zip_files:
-        print("No zip file found in the input folder")
-        raise ValueError("No zip file found in the input folder")
-    zip_file_path = zip_files[0]
-    print(f"Zip file found: {zip_file_path}")
-
-    # Extracting images from the zip file and finding the folder with images
-    images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
-    if not images_folder:
-        raise ValueError("No folder containing images was found")
-
+    if (input_folder.glob("*.zip")):
+        zip_files = list(input_folder.glob('*.zip'))
+        if not zip_files:
+            print("No zip file found in the input folder")
+            raise ValueError("No zip file found in the input folder")
+        zip_file_path = zip_files[0]
+        print(f"Zip file found: {zip_file_path}")
+        images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
+        if not images_folder:
+            raise ValueError("No folder containing images was found")
+    
     # Sorting the image paths
-    image_paths = sorted([str(file_path) for file_path in Path(images_folder).glob('*.png')], key=natural_sort_key)
+    image_paths = sorted([str(file_path) for file_path in Path(extract_to_folder).glob('*.png')], key=natural_sort_key)
     print(f"Sorted image paths: {image_paths}")
 
     # Setting the path for the output video file
