@@ -7,6 +7,10 @@ input:
       view: file
       path: Archive.zip
       label: Select Your Zip File
+    - id: duration
+      view: number
+      path: variables.dictionary
+      label: Duration for each image
   templates:
     - path: input.md
 output:

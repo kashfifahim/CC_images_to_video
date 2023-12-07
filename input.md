@@ -14,10 +14,11 @@ Place all your slide images into a single zip file. This makes it easy to upload
 Select and upload your zip archive containing the images.
 Then click *Continue*
 
-**{ image_archive }**
+**{ image_archive } { duration }**
+
 { BUTTON_PANEL }
 
-**The tool will process your images and compile them into a video.**
+The tool will process your images and compile them into a video.
 
 </br>
 ## Why Use Slideshow-to-Video Converter?
