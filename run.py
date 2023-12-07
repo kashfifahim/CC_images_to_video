@@ -1,3 +1,4 @@
+import json
 from os import getenv
 from pathlib import Path
 import os
@@ -20,6 +21,10 @@ if __name__ == '__main__':
 
     extract_to_folder = temp_folder / 'extracted_images'
     extract_to_folder.mkdir(exist_ok=True)
+    
+    # Load input variable for duration from input folder
+    with (input_folder / 'variables.dictionary').open('rt') as f:
+        variables = json.load(f)
 
     # Finding the first zip file in the input folder
     zip_files = list(input_folder.glob('*.zip'))
@@ -40,8 +45,18 @@ if __name__ == '__main__':
     # Setting the path for the output video file
     output_video_file = Path(output_folder / 'output_video.mp4')
     print(f"Output video file will be saved as: {output_video_file}")
+    
+    # duration from user here then pass it into the next function
+    try:
+        user_defined_duration = int(variables['duration'])
+        if user_defined_duration <= 0:
+            user_defined_duration = 5
+    except ValueError:
+        # If it's not an integer, set it to 5
+        user_defined_duration = 5
+    
     # Creating the video from images
-    images_to_video(image_paths, str(temp_video_file), fps=30, duration=5)
+    images_to_video(image_paths, str(temp_video_file), fps=30, duration=user_defined_duration)
     
 
     # Verifying the video creation and performing cleanup
@@ -58,7 +73,6 @@ if __name__ == '__main__':
         except OSError as e:
             print(f"Error deleting folder {extract_to_folder}: {e.strerror}")
     else:
-        print(f"Video creation failed or video file is empty: {output_video_file}")
         print(f"Video creation failed or video file is empty: {output_video_file}")
 
     print("Script ended")
