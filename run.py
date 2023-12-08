@@ -4,9 +4,11 @@ from pathlib import Path
 import os
 import shutil
 from image_processing import extract_images_from_zip, natural_sort_key, images_to_video
+from pdf_processing import pdf_to_images, zip_folder
 
 if __name__ == '__main__':
     print("Script started")
+    # Section 1: Setting up the environment variables
     # Setting up input and output folders
     input_folder = Path(getenv('CROSSCOMPUTE_INPUT_FOLDER', 'batches/standard/input'))
     output_folder = Path(getenv('CROSSCOMPUTE_OUTPUT_FOLDER', 'batches/standard/output'))
@@ -26,18 +28,22 @@ if __name__ == '__main__':
     with (input_folder / 'variables.dictionary').open('rt') as f:
         variables = json.load(f)
 
-    # Finding the first zip file in the input folder
-    zip_files = list(input_folder.glob('*.zip'))
-    if not zip_files:
-        print("No zip file found in the input folder")
-        raise ValueError("No zip file found in the input folder")
-    zip_file_path = zip_files[0]
-    print(f"Zip file found: {zip_file_path}")
+    # PDF Processing
+    pdf_file = input_folder.glob('*.pdf')
+    pdf_to_images(pdf_file, extract_to_folder)
+    
+    # # Finding the first zip file in the input folder
+    # zip_files = list(input_folder.glob('*.zip'))
+    # if not zip_files:
+    #     print("No zip file found in the input folder")
+    #     raise ValueError("No zip file found in the input folder")
+    # zip_file_path = zip_files[0]
+    # print(f"Zip file found: {zip_file_path}")
 
-    # Extracting images from the zip file and finding the folder with images
-    images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
-    if not images_folder:
-        raise ValueError("No folder containing images was found")
+    # # Extracting images from the zip file and finding the folder with images
+    # images_folder = extract_images_from_zip(zip_file_path, extract_to_folder)
+    # if not images_folder:
+    #     raise ValueError("No folder containing images was found")
 
     # Sorting the image paths
     image_paths = sorted([str(file_path) for file_path in extract_to_folder.glob('*.png')], key=natural_sort_key)

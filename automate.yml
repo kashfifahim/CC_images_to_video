@@ -3,10 +3,14 @@ name: Image to Video Conversion
 version: 0.1.0
 input:
   variables:
-    - id: image_archive
+    - id: pdf_input
       view: file
-      path: Archive.zip
-      label: Select Your Zip File
+      path: input.pdf
+      label: Select Your PDF File
+    # - id: image_archive
+    #   view: file
+    #   path: Archive.zip
+    #   label: Select Your Zip File
     - id: duration
       view: number
       path: variables.dictionary
