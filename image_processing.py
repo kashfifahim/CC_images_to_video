@@ -141,7 +141,7 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
         img = cv2.imread(img_path)
         resized_img = resize_image(img, target_width, target_height)
         
-         # Calculate the number of frames for the given duration
+        # Calculate the number of frames for the given duration
         frame_count = math.ceil(fps * duration)
         for _ in range(frame_count):
             out.write(resized_img)
