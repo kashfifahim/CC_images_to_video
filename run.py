@@ -48,7 +48,7 @@ if __name__ == '__main__':
     
     # duration from user here then pass it into the next function
     try:
-        user_defined_duration = int(variables['duration'])
+        user_defined_duration = (variables['duration'])
         if user_defined_duration <= 0:
             user_defined_duration = 5
     except ValueError:
