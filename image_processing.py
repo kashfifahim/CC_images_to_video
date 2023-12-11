@@ -80,34 +80,49 @@ def natural_sort_key(s):
 
 
 def resize_image(image, target_width, target_height):
-    # Check for valid image input
+    # Validate input image
     if image is None or len(image.shape) < 2:
+        print("Invalid image input")
         raise ValueError("Invalid image input")
 
+    # Get original image dimensions
     original_height, original_width = image.shape[:2]
+    print(f"Original dimensions: Width={original_width}, Height={original_height}")
 
-    # Ensure the original dimensions are non-zero
+    # Check if original dimensions are non-zero
     if original_height == 0 or original_width == 0:
+        print("Image dimensions are zero")
         raise ValueError("Image dimensions are zero")
 
+    # Calculate aspect ratio
     aspect_ratio = original_width / original_height
-    
+    print(f"Aspect ratio: {aspect_ratio}")
+
+    # Determine new dimensions while maintaining aspect ratio
     if original_width > original_height:
         new_width = target_width
         new_height = max(int(target_width / aspect_ratio), 1)
     else:
         new_height = target_height
         new_width = max(int(target_height * aspect_ratio), 1)
+    print(f"New dimensions: Width={new_width}, Height={new_height}")
 
+    # Resize the image
     resized_image = cv2.resize(image, (new_width, new_height))
-    
-    # Calculate padding
+    print("Image resized successfully")
+
+    # Calculate padding needed for target dimensions
     top_padding = max((target_height - new_height) // 2, 0)
     bottom_padding = max(target_height - new_height - top_padding, 0)
     left_padding = max((target_width - new_width) // 2, 0)
     right_padding = max(target_width - new_width - left_padding, 0)
+    print(f"Padding: Top={top_padding}, Bottom={bottom_padding}, Left={left_padding}, Right={right_padding}")
 
-    return cv2.copyMakeBorder(resized_image, top_padding, bottom_padding, left_padding, right_padding, cv2.BORDER_CONSTANT, value=[0, 0, 0])
+    # Add padding and return final image
+    final_image = cv2.copyMakeBorder(resized_image, top_padding, bottom_padding, left_padding, right_padding, cv2.BORDER_CONSTANT, value=[0, 0, 0])
+    print("Padding added, final image ready")
+
+    return final_image
 
 
 def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_width=1920, target_height=1080):
@@ -133,17 +148,33 @@ def images_to_video(image_paths, output_video_file, fps=30, duration=5, target_w
     Example:
     >>> images_to_video(['image1.jpg', 'image2.jpg'], 'output.mp4', fps=24, duration=3, target_width=1280, target_height=720)
     """
+    print("Starting video creation process")
 
+    # Initialize video writer
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_video_file, fourcc, fps, (target_width, target_height))
-    
+    print(f"Video writer initialized with target dimensions: Width={target_width}, Height={target_height}, FPS={fps}")
+
+    # Process each image in the provided list
     for img_path in image_paths:
+        print(f"Processing image: {img_path}")
+
+        # Read and resize image
         img = cv2.imread(img_path)
+        if img is None:
+            print(f"Warning: Unable to read image at {img_path}")
+            continue
         resized_img = resize_image(img, target_width, target_height)
-        
+        print(f"Image {img_path} resized")
+
         # Calculate the number of frames for the given duration
         frame_count = math.ceil(fps * duration)
+        print(f"Writing image {img_path} to video for {frame_count} frames")
+
+        # Write the image to the video for the calculated number of frames
         for _ in range(frame_count):
             out.write(resized_img)
     
+    # Release the video writer
     out.release()
+    print(f"Video saved to {output_video_file}")
